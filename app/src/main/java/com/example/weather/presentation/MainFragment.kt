@@ -1,0 +1,40 @@
+package com.example.weather.presentation
+
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.example.weather.R
+import com.example.weather.databinding.FragmentMainBinding
+
+class MainFragment : Fragment() {
+
+    private lateinit var binding: FragmentMainBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.search.setOnClickListener {
+            val text = binding.field.text
+            if (text == null || text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Введіть місто!", Toast.LENGTH_SHORT).show()
+            } else {
+                val bundle = bundleOf("city" to text.toString())
+                findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+            }
+        }
+    }
+}
